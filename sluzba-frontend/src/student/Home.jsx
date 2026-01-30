@@ -32,7 +32,7 @@ function Home() {
 
   return (
     <div className="home">
-      <h1>Dobrodošli u Examify za studente</h1>
+      <h1>Dobrodošli u Student Hub za studente</h1>
       <p>Ovde možete pregledati sve predmete, prijaviti ispit i videti detaljnije metrike.</p>
 
       <div className="cards-container">

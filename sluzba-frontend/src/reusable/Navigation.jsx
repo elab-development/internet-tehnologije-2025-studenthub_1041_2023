@@ -60,7 +60,7 @@ function Navigation({ user, onLogout }) {
         <button className="toggle-button" onClick={toggleSidebar}>
           {sidebarOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
         </button>
-        <span className="brand">Examify</span>
+        <span className="brand">Student Hub</span>
         <div className="user-info">
           Dobrodošli, {user.ime} {user.prezime} ({user.role})
         </div>
