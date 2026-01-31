@@ -29,8 +29,8 @@ class UserSeeder extends Seeder
             'ime' => 'Stefan',
             'prezime' => 'Peković',
             'email' => 'stefan.peković@student.fon.bg.ac.rs',
-            'password' => Hash::make('stefan.peković470'),
-            'broj_indeksa' => '2019/0470',
+            'password' => Hash::make('stefan.peković1039'),
+            'broj_indeksa' => '1039/2023',
             'smer' => 'Informacione Tehnologije i Sistemi',
             'godina_studija' => 4,
             'role' => 'student'
