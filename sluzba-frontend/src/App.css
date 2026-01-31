@@ -1,0 +1,689 @@
+
+:root {
+  --white: #ffffff;
+  --blue-light: #d0d7c9;   /* svetlija plava */
+  --blue-dark: #D2D5CF; 
+  --pdf-light: #ebeee7;   /* tamnija plava */
+  --accent-1: #3b5b76;     /* svetlo zelena */
+  --accent-2: #2A465E;     /* tamnija zelena */
+  --text-dark: #2c3e50;
+  --text-light: #D2D5CF;
+  --border-color: #D2D5CF;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --transition-speed: 0.3s;
+}
+
+/* --- GLOBALNI STILOVI --- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--blue-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--blue-dark);
+  text-decoration: none;
+  transition: color var(--transition-speed);
+}
+a:hover,
+a:focus {
+  color: var(--accent-1);
+  text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+  margin: 1rem 0 0.5rem 0;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.25rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+p {
+  font-size: 1rem;
+  margin: 0 0 1.25rem 0;
+  color: var(--white);
+}
+
+/* --- DUGMAD --- */
+button,
+.button {
+  display: inline-block;
+  background-color: var(--accent-1);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+  box-shadow: 0 4px 6px var(--shadow-color);
+  user-select: none;
+}
+
+button:hover,
+.button:hover {
+  background-color: var(--accent-2);
+  box-shadow: 0 6px 10px rgba(127, 174, 40, 0.5);
+}
+
+button:focus,
+.button:focus {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+button:disabled,
+.button:disabled {
+  background-color: var(--border-color);
+  color: #aaa;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* --- TABELE --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--white);
+  color: var(--text-dark);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  margin-bottom: 1.5rem;
+}
+
+thead {
+  background-color: var(--blue-dark);
+  color: var(--white);
+}
+
+thead th {
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color var(--transition-speed);
+}
+
+tbody tr:hover {
+  background-color: var(--text-light);
+}
+
+tbody td {
+  padding: 0.75rem 1rem;
+  vertical-align: middle;
+}
+
+/* Form wrapper za centriranje i pozadinu */
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* vertikalno */
+  align-items: center;      /* horizontalno */
+  background-image: url('../public/pozadina.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Osnovni stilovi forme */
+.form-container {
+  background-color: var(--blue-dark);
+  border-radius: 10px;
+  box-shadow: 0 6px 15px var(--shadow-color);
+  padding: 2rem 1.5rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+
+.columns-1 {
+  max-width: 500px; /* uža forma */
+  padding: 50px;
+}
+
+.columns-2 {
+  max-width: 700px; 
+}
+
+/* Grid raspored polja */
+.form-fields-wrapper {
+  display: grid;
+  grid-gap: 1rem;
+}
+
+.columns-1 .form-fields-wrapper {
+  grid-template-columns: 1fr;
+}
+
+.columns-2 .form-fields-wrapper {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Form grupa (label + input/select) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+  color: var(--white);
+  max-width: 300px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.6rem 0.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+  box-sizing: border-box;
+  max-width: 200px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  box-shadow: 0 0 8px var(--accent-1);
+}
+
+
+/* --- LISTE --- */
+ul, ol {
+  margin: 0 0 1rem 1.5rem;
+  padding: 0;
+  color: var(--white);
+}
+
+/* --- KONTEJNERI I LAYOUT --- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- JEDNOSTAVNI KARTICE --- */
+.card {
+  background-color: var(--white);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  margin-bottom: 2rem;
+}
+
+.pdf-card {
+  background-color: var(--pdf-light);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  margin-bottom: 2rem;
+  margin-top: 20px;
+}
+
+/* --- TIPOGRAFIJA - MALI DODACI --- */
+.small-text {
+  font-size: 0.875rem;
+  color: var(--white);
+}
+
+/* --- PRIKAZ GREŠAKA --- */
+.error-message {
+  color: #e53e3e;
+  font-size: 0.9rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Topbar */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background-color: var(--blue-dark);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  color: var(--white);
+  justify-content: space-between;
+  z-index: 1001;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  flex-grow: 1;
+}
+
+.user-info {
+  margin-right: 1rem;
+  white-space: nowrap;
+}
+
+
+
+/* Sidebar */
+
+.sidebar {
+  position: fixed;
+  top: 56px; /* ispod topbara */
+  left: -250px;
+  width: 250px;
+  height: calc(100% - 56px);
+  background-color: var(--blue-dark);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  transition: left 0.3s ease;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0.5rem;
+  color: var(--white);
+  text-decoration: none;
+  border-radius: 6px;
+  margin-bottom: 0.25rem;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-link:hover,
+.sidebar-link:focus {
+  background-color: var(--accent-1);
+  color: var(--blue-dark);
+  transition: background-color 0.2s ease;
+
+}
+
+.sidebar-link .icon {
+  margin-right: 1rem;
+  font-size: 1.2rem;
+}
+
+/* Overlay za zatvaranje sidebar-a klikom van */
+.sidebar-overlay {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 999;
+}
+
+.home, .prijava-ispita, .predmeti, .kalendar {
+  padding: 50px 100px;
+  margin-top: 56px; /* visina navbar-a */
+  background-color: var(--blue-light);
+  min-height: calc(100vh - 56px);
+  color: var(--white);
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.cards-container {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: var(--blue-dark);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  flex: 1 1 300px; /* fleksibilna širina, min 300px */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.card-image {
+  width: 100%;
+  max-width: 500px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertikalno centriranje */
+  align-items: center;     /* horizontalno centriranje */
+  background-image: url('../public/pozadina.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.footer {
+  background-color: var(--blue-dark);
+  color: var(--white);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  box-shadow: 0 -4px 8px rgba(0,0,0,0.2);
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.3;
+}
+
+.page {
+  margin: 100px ;
+  
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: white;
+  border-radius: 8px;
+  padding: 25px 30px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal {
+  background: white;
+  border-radius: 8px;
+  padding: 25px 30px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #2a5298;
+}
+
+.modal form label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal form input[type="text"],
+.modal form input[type="number"],
+.modal form select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.modal form input[type="checkbox"] {
+  margin-left: 8px;
+  transform: scale(1.2);
+  vertical-align: middle;
+}
+
+.holiday-container {
+  padding: 20px;
+  max-width: 1100px;
+  margin: 50px auto;
+}
+
+
+.holiday-year-label {
+  display: inline-block;
+  font-weight: 500;
+  margin: 10px 0 20px 0;
+  color: #17315e;
+ 
+}
+
+.holiday-year-input {
+  margin-left: 10px;
+  width: 260px;
+  padding: 6px 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  outline: none;
+}
+
+.holiday-year-input:focus {
+  border-color: #2a5298;
+  box-shadow: 0 0 0 2px rgba(119, 114, 114, 0.2);
+}
+
+.loading-text {
+  color: #718096;
+  margin-top: 10px;
+}
+
+/* GRID */
+.holiday-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  height: 400px;
+}
+
+
+.holiday-card-date {
+  padding: 6px 8px;
+  background-color: #ffffff;
+  size: 20px;
+  margin-left: -240px;
+}
+
+.table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.table-toolbar input,
+.table-toolbar select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  min-width: 120px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.table-toolbar input:focus,
+.table-toolbar select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 4px rgba(74, 144, 226, 0.4);
+}
+
+.table-toolbar input {
+  flex: 1; /* Search input se širi */
+}
+
+.table-toolbar select {
+  background-color: white;
+  cursor: pointer;
+}
+
+.breadcrumbs {
+  margin: 10px 0 20px 0;
+}
+
+.dashboard-metrics {
+  margin-top: 3rem;
+  padding: 2rem;
+  background-color: var(--blue-dark);
+  border-radius: 12px;
+  color: white;
+}
+
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.metric-box {
+  background-color: var(--pdf-light);
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.metric-box h3 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.metric-box p {
+  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.metric-box.green { background-color: #3b9c66; }
+.metric-box.red { background-color: #c94b4b; }
+.metric-box.gray { background-color: #555; }
+.metric-box.blue { background-color: #3b6ea5; }
+.metric-box.orange { background-color: #d9822b; }
+.metric-box.purple { background-color: #8e44ad; }
+.metric-box.gold { background-color: #bfa142; }
+
+.chart-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.chart-box {
+  flex: 1 1 400px;
+  background-color: var(--pdf-light);
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.youtube-container {
+  padding: 20px;
+  padding-top: 50px;
+}
+
+.youtube-search-form {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.youtube-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: #2A465E;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
