@@ -12,6 +12,8 @@ import SluzbenikStudenti from './sluzbenik/SluzbenikStudenti';
 import Predmeti from './student/Predmeti';
 import Prijave from './student/PrijavaIspita';
 import PrijaveSluzbenik from './sluzbenik/SluzbenikPrijavaIspita';
+import Kalendar from './student/Kalendar';
+import YoutubeEdukacija from './student/YoutubeEdukacija';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -57,7 +59,8 @@ function App() {
             <Route path="/home" element={<Home />} />
              <Route path="/predmeti" element={<Predmeti />} />
              <Route path="/prijave" element={<Prijave/>} />
-            
+            <Route path="/kalendar" element={<Kalendar />} />
+            <Route path="/edukacija" element={<YoutubeEdukacija />} />
           </>
         )}
 
