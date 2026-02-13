@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studentska Služba API Docs</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
+
+  <style>
+    body { margin: 0; background: #fafafa; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 16px; }
+
+    .docs-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 14px;
+      padding: 12px 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+      margin-bottom: 14px;
+    }
+
+    .docs-header img {
+      height: 42px;
+      width: auto;
+      display: block;
+    }
+
+    .docs-title { line-height: 1.2; }
+    .docs-title strong { font-size: 16px; display: block; }
+    .docs-title span { font-size: 12px; color: #666; display: block; }
+
+    /* Swagger container stays centered */
+    #swagger-ui { background: transparent; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="docs-header">
+      <!-- Ako je logo u public/logo.png -->
+      <img src="https://i.ibb.co/JWF0XyfM/logo.png" alt="Studentska Služba logo"/>
+      <div class="docs-title">
+        <strong>Studentska Služba — API dokumentacija</strong>
+        <span>Swagger UI</span>
+      </div>
+    </div>
+
+    <div id="swagger-ui"></div>
+  </div>
+
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+  <script>
+    window.onload = () => {
+      SwaggerUIBundle({
+        url: "/docs/openapi.yaml",
+        dom_id: "#swagger-ui",
+        persistAuthorization: true,
+        displayRequestDuration: true,
+        deepLinking: true
+      });
+    };
+  </script>
+</body>
+</html>
