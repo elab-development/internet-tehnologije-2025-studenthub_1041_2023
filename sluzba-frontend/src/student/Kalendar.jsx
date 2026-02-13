@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import useHolidays from "../hooks/useHolidays";
 import Pagination from "../reusable/Pagination";
-import Breadcrumbs from '../reusable/Breadcrumbs';
+import Breadcrumbs from "../reusable/Breadcrumbs";
 
 const Kalendar = () => {
   const [year, setYear] = useState(new Date().getFullYear());
-  const { holidays, loading } = useHolidays(year, "RS");
 
-  // PAGINATION
-  const itemsPerPage = 3; 
+  const { holidays, loading, error } = useHolidays(year, "RS");
+
+  // PAGINATION.
+  const itemsPerPage = 3;
   const [page, setPage] = useState(1);
-  const lastPage = Math.ceil(holidays.length / itemsPerPage);
 
-  const paginatedHolidays = holidays.slice(
+  const sortedHolidays = useMemo(() => {
+    return [...holidays].sort((a, b) =>
+      String(a?.date || "").localeCompare(String(b?.date || ""))
+    );
+  }, [holidays]);
+
+  const lastPage = Math.max(1, Math.ceil(sortedHolidays.length / itemsPerPage));
+
+  const paginatedHolidays = sortedHolidays.slice(
     (page - 1) * itemsPerPage,
     page * itemsPerPage
   );
@@ -23,14 +31,15 @@ const Kalendar = () => {
   return (
     <div className="holiday-container">
       <h1>Praznici u Srbiji ({year})</h1>
+
       <Breadcrumbs
         items={[
-          { label: 'Početna', link: '/home' },
-          { label: 'Kalendar' },
-          ]}
-        />
+          { label: "Početna", link: "/home" },
+          { label: "Kalendar" },
+        ]}
+      />
 
-      <p> Pogledajte detaljan pregled praznika u Srbiji za izabranu godinu.</p>
+      <p>Pogledajte detaljan pregled praznika u Srbiji za izabranu godinu.</p>
 
       <label className="holiday-year-label">
         Godina:
@@ -38,8 +47,9 @@ const Kalendar = () => {
           type="number"
           value={year}
           onChange={(e) => {
-            setYear(e.target.value);
-            setPage(1); // resetuj stranu kad se promeni godina
+            const val = parseInt(e.target.value, 10);
+            setYear(Number.isNaN(val) ? new Date().getFullYear() : val);
+            setPage(1);
           }}
           className="holiday-year-input"
         />
@@ -47,33 +57,45 @@ const Kalendar = () => {
 
       {loading ? (
         <p className="loading-text">Učitavanje...</p>
+      ) : error ? (
+        <p className="loading-text">Greška: {error}</p>
       ) : paginatedHolidays.length === 0 ? (
         <p className="loading-text">Nema dostupnih praznika za ovu godinu.</p>
       ) : (
         <>
           <div className="holiday-grid">
-            {paginatedHolidays.map((holiday) => (
-              <div key={holiday.date.iso} className="card">
-                <div className="holiday-card-date">
-                  <span className="holiday-day">
-                    {new Date(holiday.date.iso).getDate()}
-                  </span>
-                  <span className="holiday-month">
-                    {new Date(holiday.date.iso).toLocaleString("en-US", {
-                      month: "short",
-                    })}
-                  </span>
+            {paginatedHolidays.map((holiday) => {
+              const dateStr = holiday?.date; // "YYYY-MM-DD"
+              const dt = dateStr ? new Date(`${dateStr}T00:00:00`) : null;
+
+              return (
+                <div key={`${holiday?.name}-${dateStr}`} className="card">
+                  <div className="holiday-card-date">
+                    <span className="holiday-day">{dt ? dt.getDate() : "-"}</span>
+                    <span className="holiday-month">
+                      {dt
+                        ? dt.toLocaleString("sr-RS", { month: "short" })
+                        : "-"}
+                    </span>
+                  </div>
+
+                  <div className="holiday-card-body">
+                    {/* Prikaži lokalni naziv (srpski), a ispod engleski. */}
+                    <h4>{holiday?.localName || holiday?.name}</h4>
+                    {holiday?.localName && holiday?.name ? (
+                      <p>{holiday.name}</p>
+                    ) : null}
+
+                    {/* Types je niz, npr. ["Public"] */}
+                    {Array.isArray(holiday?.types) && holiday.types.length > 0 ? (
+                      <p>{holiday.types.join(", ")}</p>
+                    ) : null}
+                  </div>
                 </div>
-                <div className="holiday-card-body">
-                  <h4>{holiday.name}</h4>
-                  {holiday.primary_type && <p>{holiday.primary_type}</p>}
-                  {holiday.description && <p>{holiday.description}</p>}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* PAGINATION */}
           <Pagination
             page={page}
             last={lastPage}

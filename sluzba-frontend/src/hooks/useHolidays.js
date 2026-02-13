@@ -1,35 +1,36 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const useHolidays = (year, country = "RS") => {
   const [holidays, setHolidays] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchHolidays = async () => {
+    const y = Number(year);
+    if (!Number.isFinite(y)) return;
+
+    const controller = new AbortController();
+
+    (async () => {
       setLoading(true);
+      setError("");
       try {
-        const apiKey = process.env.REACT_APP_CALENDARIFIC_API_KEY;
-        const url = `https://calendarific.com/api/v2/holidays?&api_key=${apiKey}&country=${country}&year=${year}`;
-
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if (data.meta.code === 200) {
-          setHolidays(data.response.holidays);
-        } else {
-          console.error("Greška u API odgovoru:", data);
-        }
-      } catch (error) {
-        console.error("Greška pri dohvatanju podataka:", error);
+        const url = `https://date.nager.at/api/v3/PublicHolidays/${y}/${String(country).toUpperCase()}`;
+        const res = await fetch(url, { signal: controller.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}.`);
+        const data = await res.json();
+        setHolidays(Array.isArray(data) ? data : []);
+      } catch (e) {
+        if (e.name !== "AbortError") setError(e.message || "Greška.");
       } finally {
         setLoading(false);
       }
-    };
+    })();
 
-    fetchHolidays();
+    return () => controller.abort();
   }, [year, country]);
 
-  return { holidays, loading };
+  return { holidays, loading, error };
 };
 
 export default useHolidays;
