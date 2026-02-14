@@ -21,9 +21,9 @@ services:
 
   backend:
     build:
-      context: ./studentska_sluzba_be
+      context: ./sluzba-backend
       dockerfile: Dockerfile
-    container_name: studentska_sluzba_be
+    container_name: sluzba-backend
     depends_on:
       mysql:
         condition: service_healthy
@@ -35,7 +35,7 @@ services:
       DB_CONNECTION: mysql
       DB_HOST: mysql
       DB_PORT: 3306
-      DB_DATABASE: studentska_sluzba__db
+      DB_DATABASE: studentska_sluzba_db
       DB_USERNAME: root
       DB_PASSWORD: ""
 
@@ -47,9 +47,9 @@ services:
 
   frontend:
     build:
-      context: ./studentska_sluzba_fe
+      context: ./sluzba-frontend
       dockerfile: Dockerfile
-    container_name: studentska_sluzba_fe
+    container_name: sluzba-frontend
     depends_on:
       - backend
     environment:
