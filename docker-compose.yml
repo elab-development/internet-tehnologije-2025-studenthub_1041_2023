@@ -3,7 +3,7 @@ version: "3.9"
 services:
   mysql:
     image: mysql:8.0
-    container_name: studentska_sluzba_-mysql
+    container_name: studentska_sluzba_mysql
     environment:
       MYSQL_DATABASE: studentska_sluzba_db
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
