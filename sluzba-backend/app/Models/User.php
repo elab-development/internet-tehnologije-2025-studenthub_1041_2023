@@ -53,13 +53,17 @@ class User extends Authenticatable
 
     public function predmeti()
     {
-        return $this->belongsToMany(Predmet::class)
-                    ->withPivot('status_predavanja', 'upisano_u_godini')
-                    ->withTimestamps();
+        return $this->belongsToMany(Predmet::class, 'predmet_user', 'user_id', 'predmet_id')
+            ->withPivot(['status_predavanja', 'upisano_u_godini'])
+            ->withTimestamps();
     }
-
     public function prijave()
     {
         return $this->hasMany(PrijavaIspita::class, 'user_id');
+    }
+
+    public function profesor()
+    {
+        return $this->hasOne(Profesor::class);
     }
 }

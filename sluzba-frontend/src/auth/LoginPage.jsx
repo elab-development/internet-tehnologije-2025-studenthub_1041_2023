@@ -28,6 +28,8 @@ function LoginPage({ onLoginSuccess }) {
         navigate('/home');
       } else if (user.role === 'sluzbenik') {
         navigate('/sluzbenik/home');
+      } else if (user.role === 'profesor') {
+        navigate('/profesor/home');
       } else {
         navigate('/home');
       }

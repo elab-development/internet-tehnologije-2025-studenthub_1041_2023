@@ -35,4 +35,11 @@ class Predmet extends Model
     {
         return $this->hasMany(PrijavaIspita::class, 'predmet_id');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'predmet_user', 'predmet_id', 'user_id')
+            ->withPivot(['status_predavanja', 'upisano_u_godini'])
+            ->withTimestamps();
+    }
 }

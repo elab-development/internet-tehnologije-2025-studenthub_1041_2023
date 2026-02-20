@@ -3,17 +3,15 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Profesor;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+        // Službenik.
         User::create([
             'ime' => 'Isidora',
             'prezime' => 'Mandić',
@@ -25,6 +23,30 @@ class UserSeeder extends Seeder
             'role' => 'sluzbenik'
         ]);
 
+        // Profesor (user).
+        $profUser = User::create([
+            'ime' => 'Selena',
+            'prezime' => 'Kačarević',
+            'email' => 'selena.kacarevic@fon.bg.ac.rs',
+            'password' => Hash::make('profesor'),
+            'broj_indeksa' => null,
+            'smer' => null,
+            'godina_studija' => null,
+            'role' => 'profesor'
+        ]);
+
+        // ✅ Poveži tog user-a sa tabelom profesori (user_id).
+        // Ako Profesor tabela ima kolone: ime, prezime, zvanje (kao u factory), popuni ih.
+        Profesor::updateOrCreate(
+            ['user_id' => $profUser->id],
+            [
+                'ime' => $profUser->ime,
+                'prezime' => $profUser->prezime,
+                'zvanje' => 'Docent',
+            ]
+        );
+
+        // Student (test user).
         User::create([
             'ime' => 'Stefan',
             'prezime' => 'Peković',
@@ -36,7 +58,7 @@ class UserSeeder extends Seeder
             'role' => 'student'
         ]);
 
+        // Ostali studenti kroz factory.
         User::factory(10)->create();
-
     }
 }

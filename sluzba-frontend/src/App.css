@@ -686,4 +686,244 @@ ul, ol {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+/* ===== Examify Profesor UI (isolated) ===== */
 
+.exfProf__page {
+  /* koristi tvoj postojeći .page spacing, ali dodaje sitnu “profesor” temu */
+}
+
+.exfProf__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.exfProf__headerActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.exfProf__title {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.15;
+}
+
+.exfProf__subtitle {
+  margin: 6px 0 0 0;
+  opacity: 0.75;
+}
+
+.exfProf__error {
+  color: #b00020;
+  font-weight: 600;
+}
+
+/* buttons (unique) */
+.exfProf__btn {
+  border: 1px solid rgba(20, 20, 30, 0.14);
+  background: #ffffff;
+  padding: 9px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform .06s ease, box-shadow .16s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  font-weight: 600;
+}
+
+.exfProf__btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.09);
+}
+
+.exfProf__btn:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.exfProf__btn--ghost {
+  background: rgba(0,0,0,0.02);
+}
+
+.exfProf__btn--primary {
+  background: linear-gradient(135deg, rgba(120, 200, 255, 0.35), rgba(190, 255, 220, 0.35));
+  border: 1px solid rgba(40, 120, 140, 0.18);
+}
+
+/* cards */
+.exfProf__cards {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 12px;
+  margin: 12px 0 16px 0;
+}
+
+.exfProf__card {
+  border: 1px solid rgba(0,0,0,0.10);
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+}
+
+.exfProf__card--hint {
+  background: linear-gradient(135deg, rgba(255, 245, 210, 0.6), rgba(255, 255, 255, 1));
+}
+
+.exfProf__cardLabel {
+  font-size: 12px;
+  opacity: .72;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.exfProf__cardValue {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.exfProf__cardText {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: .86;
+  line-height: 1.35;
+}
+
+/* section */
+.exfProf__section {
+  border: 1px solid rgba(0,0,0,0.10);
+  background: #fff;
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+}
+
+.exfProf__sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 4px 10px 4px;
+}
+
+.exfProf__sectionTitle {
+  font-weight: 800;
+}
+
+.exfProf__sectionMeta {
+  opacity: .70;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.exfProf__toolbarWrap {
+  margin-bottom: 10px;
+}
+
+.exfProf__tableWrap {
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* grid panels */
+.exfProf__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.exfProf__panel {
+  border: 1px solid rgba(0,0,0,0.10);
+  background: #fff;
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.06);
+}
+
+.exfProf__panelHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 4px 10px 4px;
+}
+
+.exfProf__panelTitle {
+  font-weight: 800;
+}
+
+.exfProf__panelMeta {
+  opacity: .72;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.exfProf__paginationWrap {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* modal */
+.exfProf__modalForm {
+  display: grid;
+  gap: 12px;
+}
+
+.exfProf__modalBox {
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.02);
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: grid;
+  gap: 6px;
+}
+
+.exfProf__muted {
+  opacity: .72;
+  font-weight: 700;
+}
+
+.exfProf__modalRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.exfProf__label {
+  display: grid;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.exfProf__input {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.16);
+  background: #fff;
+}
+
+.exfProf__modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* responsive */
+@media (max-width: 980px) {
+  .exfProf__grid {
+    grid-template-columns: 1fr;
+  }
+  .exfProf__cards {
+    grid-template-columns: 1fr;
+  }
+  .exfProf__modalRow {
+    grid-template-columns: 1fr;
+  }
+}

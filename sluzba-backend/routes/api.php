@@ -7,6 +7,7 @@ use App\Http\Controllers\PredmetController;
 use App\Http\Controllers\PrijavaIspitaController;
 use App\Http\Controllers\PdfExportController;
 use App\Http\Controllers\ProfesorController;
+use App\Http\Controllers\ProfesorPanelController;
 
 Route::post('/register', [UserAuthController::class, 'register']);
 Route::post('/login', [UserAuthController::class, 'login']);
@@ -37,6 +38,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('/predmeti', PredmetController::class)->only(['index', 'update']);
         Route::get('/prijave', [PrijavaIspitaController::class, 'index']);
         Route::patch('/prijave/{id}/ocena', [PrijavaIspitaController::class, 'updateOcena']);
+    });
+
+     Route::prefix('profesor')->group(function () {
+        Route::get('/predmeti', [ProfesorPanelController::class, 'mojiPredmeti']);
+        Route::get('/predmeti/{predmetId}/studenti', [ProfesorPanelController::class, 'studentiNaPredmetu']);
+        Route::get('/predmeti/{predmetId}/prijave-ispita', [ProfesorPanelController::class, 'prijaveZaPredmet']);
+        Route::patch('/prijave-ispita/{prijavaId}/ocena', [ProfesorPanelController::class, 'upisiOcenu']);
     });
 
 });

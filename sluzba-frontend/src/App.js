@@ -15,6 +15,10 @@ import PrijaveSluzbenik from './sluzbenik/SluzbenikPrijavaIspita';
 import Kalendar from './student/Kalendar';
 import YoutubeEdukacija from './student/YoutubeEdukacija';
 
+//  NOVO:
+import ProfesorHome from './profesor/ProfesorHome';
+import ProfesorStudenti from './profesor/ProfesorStudenti';
+
 function App() {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
@@ -57,8 +61,8 @@ function App() {
         {user && user.role === 'student' && (
           <>
             <Route path="/home" element={<Home />} />
-             <Route path="/predmeti" element={<Predmeti />} />
-             <Route path="/prijave" element={<Prijave/>} />
+            <Route path="/predmeti" element={<Predmeti />} />
+            <Route path="/prijave" element={<Prijave />} />
             <Route path="/kalendar" element={<Kalendar />} />
             <Route path="/youtube" element={<YoutubeEdukacija />} />
           </>
@@ -73,8 +77,23 @@ function App() {
             <Route path="/sluzbenik/prijave" element={<PrijaveSluzbenik />} />
           </>
         )}
+
+        {/*  Ako je ulogovan profesor */}
+        {user && user.role === 'profesor' && (
+          <>
+            <Route path="/profesor/home" element={<ProfesorHome />} />
+            <Route path="/profesor/studenti" element={<ProfesorStudenti />} />
+          </>
+        )}
+
+        {/*  Fallback redirecti (preporuka) */}
+        {user && user.role === 'student' && <Route path="*" element={<Navigate to="/home" />} />}
+        {user && user.role === 'sluzbenik' && <Route path="*" element={<Navigate to="/sluzbenik/home" />} />}
+        {user && user.role === 'profesor' && <Route path="*" element={<Navigate to="/profesor/home" />} />}
+        {!user && <Route path="*" element={<Navigate to="/" />} />}
       </Routes>
-      <Footer/>
+
+      <Footer />
     </BrowserRouter>
   );
 }
