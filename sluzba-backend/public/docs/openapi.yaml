@@ -2,11 +2,12 @@ openapi: 3.0.3
 info:
   title: Studentska Sluzba API
   version: 1.0.0
-  description: 'OpenAPI specifikacija za Studentska Služba (Laravel + Sanctum). Base
-    path: /api.'
+  description: >
+    OpenAPI specifikacija za Studentska Služba (Laravel + Sanctum). Base path: /api.
 servers:
-- url: /api
-  description: Laravel API base
+  - url: /api
+    description: Laravel API base
+
 components:
   securitySchemes:
     sanctumBearer:
@@ -14,6 +15,7 @@ components:
       scheme: bearer
       bearerFormat: Token
       description: 'Laravel Sanctum token. Header: Authorization: Bearer {token}'
+
   schemas:
     ValidationErrorResponse:
       type: object
@@ -27,9 +29,8 @@ components:
             type: array
             items:
               type: string
-      required:
-      - message
-      - errors
+      required: [message, errors]
+
     ErrorResponse:
       type: object
       properties:
@@ -45,9 +46,8 @@ components:
             type: array
             items:
               type: string
-      required:
-      - success
-      - message
+      required: [success, message]
+
     NullDataResponse:
       type: object
       properties:
@@ -60,9 +60,8 @@ components:
           example: Odjava uspešna.
         data:
           nullable: true
-      required:
-      - success
-      - data
+      required: [success, data]
+
     User:
       type: object
       properties:
@@ -93,21 +92,15 @@ components:
           example: 4
         role:
           type: string
-          enum:
-          - student
-          - sluzbenik
+          enum: [student, sluzbenik, profesor]
           example: student
         created_at:
           type: string
           format: date-time
           nullable: true
           example: '2026-02-12T12:00:00Z'
-      required:
-      - id
-      - ime
-      - prezime
-      - email
-      - role
+      required: [id, ime, prezime, email, role]
+
     AuthPayload:
       type: object
       properties:
@@ -116,9 +109,8 @@ components:
         token:
           type: string
           example: 1|xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      required:
-      - user
-      - token
+      required: [user, token]
+
     AuthSuccessResponse:
       type: object
       properties:
@@ -130,10 +122,8 @@ components:
           example: Prijava uspešna.
         data:
           $ref: '#/components/schemas/AuthPayload'
-      required:
-      - success
-      - message
-      - data
+      required: [success, message, data]
+
     Profesor:
       type: object
       properties:
@@ -155,10 +145,8 @@ components:
           format: email
           nullable: true
           example: marko.markovic@fon.bg.ac.rs
-      required:
-      - id
-      - ime
-      - prezime
+      required: [id, ime, prezime]
+
     Predmet:
       type: object
       properties:
@@ -183,11 +171,8 @@ components:
           format: date-time
           nullable: true
           example: '2026-02-12T12:00:00Z'
-      required:
-      - id
-      - naziv
-      - espb
-      - semestar
+      required: [id, naziv, espb, semestar]
+
     PrijavaIspita:
       type: object
       properties:
@@ -219,17 +204,14 @@ components:
         predmet:
           nullable: true
           allOf:
-          - $ref: '#/components/schemas/Predmet'
+            - $ref: '#/components/schemas/Predmet'
         created_at:
           type: string
           format: date-time
           nullable: true
           example: '2026-02-12T12:00:00Z'
-      required:
-      - id
-      - student_id
-      - predmet_id
-      - rok
+      required: [id, student_id, predmet_id, rok]
+
     StudentMetrike:
       type: object
       description: Metrike za ulogovanog studenta.
@@ -247,6 +229,7 @@ components:
           type: number
           example: 8.75
       additionalProperties: true
+
     ResourceCollection_Profesor:
       type: object
       properties:
@@ -257,9 +240,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Profesor'
-      required:
-      - success
-      - data
+      required: [success, data]
+
     ResourceCollection_Predmet:
       type: object
       properties:
@@ -270,9 +252,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Predmet'
-      required:
-      - success
-      - data
+      required: [success, data]
+
     ResourceCollection_Prijava:
       type: object
       properties:
@@ -283,21 +264,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PrijavaIspita'
-      required:
-      - success
-      - data
+      required: [success, data]
+
 security:
-- sanctumBearer: []
+  - sanctumBearer: []
+
 tags:
-- name: Auth
-- name: Profesori
-- name: Student
-- name: Sluzbenik
+  - name: Auth
+  - name: Profesori
+  - name: Student
+  - name: Sluzbenik
+  - name: Profesor
+
 paths:
   /register:
     post:
-      tags:
-      - Auth
+      tags: [Auth]
       summary: Registracija korisnika
       description: Kreira korisnika i vraća token (Sanctum).
       security: []
@@ -308,46 +290,18 @@ paths:
             schema:
               type: object
               properties:
-                ime:
-                  type: string
-                  minLength: 2
-                  maxLength: 100
-                prezime:
-                  type: string
-                  minLength: 2
-                  maxLength: 100
-                email:
-                  type: string
-                  format: email
-                  maxLength: 150
-                password:
-                  type: string
-                  minLength: 4
-                  maxLength: 255
-                broj_indeksa:
-                  type: string
-                  nullable: true
-                  maxLength: 40
-                smer:
-                  type: string
-                  nullable: true
-                  maxLength: 200
-                godina_studija:
-                  type: integer
-                  nullable: true
-                  minimum: 1
-                  maximum: 8
+                ime: { type: string, minLength: 2, maxLength: 100 }
+                prezime: { type: string, minLength: 2, maxLength: 100 }
+                email: { type: string, format: email, maxLength: 150 }
+                password: { type: string, minLength: 4, maxLength: 255 }
+                broj_indeksa: { type: string, nullable: true, maxLength: 40 }
+                smer: { type: string, nullable: true, maxLength: 200 }
+                godina_studija: { type: integer, nullable: true, minimum: 1, maximum: 8 }
                 role:
                   type: string
                   nullable: true
-                  enum:
-                  - student
-                  - sluzbenik
-              required:
-              - ime
-              - prezime
-              - email
-              - password
+                  enum: [student, sluzbenik, profesor]
+              required: [ime, prezime, email, password]
             examples:
               register_sluzbenik:
                 value:
@@ -369,6 +323,16 @@ paths:
                   smer: Informacione Tehnologije i Sistemi
                   godina_studija: 4
                   role: student
+              register_profesor:
+                value:
+                  ime: Selena
+                  prezime: Kačarević
+                  email: selena.kacarevic@fon.bg.ac.rs
+                  password: profesor
+                  broj_indeksa: null
+                  smer: null
+                  godina_studija: null
+                  role: profesor
       responses:
         '201':
           description: Kreirano (user + token).
@@ -382,10 +346,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
+
   /login:
     post:
-      tags:
-      - Auth
+      tags: [Auth]
       summary: Login
       security: []
       requestBody:
@@ -395,25 +359,16 @@ paths:
             schema:
               type: object
               properties:
-                email:
-                  type: string
-                  format: email
-                  maxLength: 150
-                password:
-                  type: string
-                  maxLength: 255
-              required:
-              - email
-              - password
+                email: { type: string, format: email, maxLength: 150 }
+                password: { type: string, maxLength: 255 }
+              required: [email, password]
             examples:
               login_sluzbenik:
-                value:
-                  email: isidora.m@fon.bg.ac.rs
-                  password: admin
+                value: { email: isidora.m@fon.bg.ac.rs, password: admin }
               login_student:
-                value:
-                  email: stefan.peković@student.fon.bg.ac.rs
-                  password: stefan.peković1039
+                value: { email: stefan.peković@student.fon.bg.ac.rs, password: stefan.peković1039 }
+              login_profesor:
+                value: { email: selena.kacarevic@fon.bg.ac.rs, password: profesor }
       responses:
         '200':
           description: Uspeh (user + token).
@@ -433,10 +388,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ValidationErrorResponse'
+
   /logout:
     post:
-      tags:
-      - Auth
+      tags: [Auth]
       summary: Logout
       description: Briše trenutni Sanctum token.
       responses:
@@ -448,10 +403,10 @@ paths:
                 $ref: '#/components/schemas/NullDataResponse'
         '401':
           description: Unauthorized.
+
   /profesori:
     get:
-      tags:
-      - Profesori
+      tags: [Profesori]
       summary: Lista profesora
       responses:
         '200':
@@ -462,10 +417,10 @@ paths:
                 $ref: '#/components/schemas/ResourceCollection_Profesor'
         '401':
           description: Unauthorized.
+
   /student/predmeti/dostupni:
     get:
-      tags:
-      - Student
+      tags: [Student]
       summary: Pregled dostupnih predmeta
       responses:
         '200':
@@ -474,18 +429,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceCollection_Predmet'
-        '401':
-          description: Unauthorized.
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden (not student).
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
   /student/predmeti/upisani:
     get:
-      tags:
-      - Student
+      tags: [Student]
       summary: Pregled upisanih predmeta
       responses:
         '200':
@@ -494,25 +447,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceCollection_Predmet'
-        '401':
-          description: Unauthorized.
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden (not student).
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
   /student/predmeti/upisani/{id}:
     get:
-      tags:
-      - Student
+      tags: [Student]
       summary: Detalji upisanog predmeta
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
       responses:
         '200':
           description: Predmet.
@@ -521,28 +471,20 @@ paths:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-                    example: true
-                  data:
-                    $ref: '#/components/schemas/Predmet'
-                required:
-                - success
-                - data
-        '401':
-          description: Unauthorized.
+                  success: { type: boolean, example: true }
+                  data: { $ref: '#/components/schemas/Predmet' }
+                required: [success, data]
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: Not found.
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '404': { description: Not found. }
+
   /student/prijave:
     get:
-      tags:
-      - Student
+      tags: [Student]
       summary: Pregled mojih prijava ispita
       responses:
         '200':
@@ -551,17 +493,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceCollection_Prijava'
-        '401':
-          description: Unauthorized.
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
     post:
-      tags:
-      - Student
+      tags: [Student]
       summary: Prijavi ispit
       requestBody:
         required: true
@@ -570,20 +509,12 @@ paths:
             schema:
               type: object
               properties:
-                predmet_id:
-                  type: integer
-                rok:
-                  type: integer
-                  minimum: 1
-                  maximum: 6
-              required:
-              - predmet_id
-              - rok
+                predmet_id: { type: integer }
+                rok: { type: integer, minimum: 1, maximum: 6 }
+              required: [predmet_id, rok]
             examples:
               prijava:
-                value:
-                  predmet_id: 3
-                  rok: 1
+                value: { predmet_id: 3, rok: 1 }
       responses:
         '201':
           description: Kreirano.
@@ -592,42 +523,31 @@ paths:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: Prijava kreirana.
-                  data:
-                    $ref: '#/components/schemas/PrijavaIspita'
-                required:
-                - success
-                - data
-        '401':
-          description: Unauthorized.
+                  success: { type: boolean, example: true }
+                  message: { type: string, example: Prijava kreirana. }
+                  data: { $ref: '#/components/schemas/PrijavaIspita' }
+                required: [success, data]
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
         '422':
           description: Greška / validacija.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
   /student/prijave/{id}:
     put:
-      tags:
-      - Student
+      tags: [Student]
       summary: Izmeni prijavu (npr. rok)
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
       requestBody:
         required: true
         content:
@@ -635,16 +555,11 @@ paths:
             schema:
               type: object
               properties:
-                rok:
-                  type: integer
-                  minimum: 1
-                  maximum: 6
-              required:
-              - rok
+                rok: { type: integer, minimum: 1, maximum: 6 }
+              required: [rok]
             examples:
               izmena:
-                value:
-                  rok: 2
+                value: { rok: 2 }
       responses:
         '200':
           description: Ažurirano.
@@ -653,41 +568,29 @@ paths:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: Prijava ažurirana.
-                  data:
-                    $ref: '#/components/schemas/PrijavaIspita'
-                required:
-                - success
-                - data
-        '401':
-          description: Unauthorized.
+                  success: { type: boolean, example: true }
+                  message: { type: string, example: Prijava ažurirana. }
+                  data: { $ref: '#/components/schemas/PrijavaIspita' }
+                required: [success, data]
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
         '422':
           description: Greška / validacija.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
     delete:
-      tags:
-      - Student
+      tags: [Student]
       summary: Obriši prijavu
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
       responses:
         '200':
           description: Obrisano.
@@ -695,20 +598,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NullDataResponse'
-        '401':
-          description: Unauthorized.
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: Not found.
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '404': { description: Not found. }
+
   /student/metrike:
     get:
-      tags:
-      - Student
+      tags: [Student]
       summary: Metrike studenta
       responses:
         '200':
@@ -718,26 +618,19 @@ paths:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-                    example: true
-                  data:
-                    $ref: '#/components/schemas/StudentMetrike'
-                required:
-                - success
-                - data
-        '401':
-          description: Unauthorized.
+                  success: { type: boolean, example: true }
+                  data: { $ref: '#/components/schemas/StudentMetrike' }
+                required: [success, data]
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
   /student/pdf:
     get:
-      tags:
-      - Student
+      tags: [Student]
       summary: PDF eksport izveštaja
       description: Vraća PDF fajl.
       responses:
@@ -748,18 +641,16 @@ paths:
               schema:
                 type: string
                 format: binary
-        '401':
-          description: Unauthorized.
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
   /sluzbenik/studenti:
     get:
-      tags:
-      - Sluzbenik
+      tags: [Sluzbenik]
       summary: Prikaz studenata
       responses:
         '200':
@@ -769,28 +660,22 @@ paths:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-                    example: true
+                  success: { type: boolean, example: true }
                   data:
                     type: array
                     items:
                       $ref: '#/components/schemas/User'
-                required:
-                - success
-                - data
-        '401':
-          description: Unauthorized.
+                required: [success, data]
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden (not sluzbenik).
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
   /sluzbenik/predmeti:
     get:
-      tags:
-      - Sluzbenik
+      tags: [Sluzbenik]
       summary: Prikaz predmeta
       responses:
         '200':
@@ -799,25 +684,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceCollection_Predmet'
-        '401':
-          description: Unauthorized.
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
   /sluzbenik/predmeti/{id}:
     put:
-      tags:
-      - Sluzbenik
+      tags: [Sluzbenik]
       summary: Ažuriranje predmeta (espb, semestar...)
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
       requestBody:
         required: true
         content:
@@ -825,26 +707,13 @@ paths:
             schema:
               type: object
               properties:
-                espb:
-                  type: integer
-                  minimum: 0
-                  maximum: 60
-                semestar:
-                  type: integer
-                  minimum: 1
-                  maximum: 12
-                naziv:
-                  type: string
-                  nullable: true
-                  maxLength: 255
-                profesor_id:
-                  type: integer
-                  nullable: true
+                espb: { type: integer, minimum: 0, maximum: 60 }
+                semestar: { type: integer, minimum: 1, maximum: 12 }
+                naziv: { type: string, nullable: true, maxLength: 255 }
+                profesor_id: { type: integer, nullable: true }
             examples:
               update:
-                value:
-                  espb: 6
-                  semestar: 2
+                value: { espb: 6, semestar: 2 }
       responses:
         '200':
           description: Ažurirano.
@@ -853,35 +722,25 @@ paths:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: Predmet ažuriran.
-                  data:
-                    $ref: '#/components/schemas/Predmet'
-                required:
-                - success
-                - data
-        '401':
-          description: Unauthorized.
+                  success: { type: boolean, example: true }
+                  message: { type: string, example: Predmet ažuriran. }
+                  data: { $ref: '#/components/schemas/Predmet' }
+                required: [success, data]
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
         '422':
           description: Validaciona greška.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ValidationErrorResponse'
+              schema: { $ref: '#/components/schemas/ValidationErrorResponse' }
+
   /sluzbenik/prijave:
     get:
-      tags:
-      - Sluzbenik
+      tags: [Sluzbenik]
       summary: Pregled prijava ispita
       responses:
         '200':
@@ -890,25 +749,146 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResourceCollection_Prijava'
-        '401':
-          description: Unauthorized.
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
   /sluzbenik/prijave/{id}/ocena:
     patch:
-      tags:
-      - Sluzbenik
+      tags: [Sluzbenik]
       summary: Upis/izmena ocene i statusa prijave
       parameters:
-      - name: id
-        in: path
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
         required: true
-        schema:
-          type: integer
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ocena: { type: integer, minimum: 5, maximum: 10 }
+                status: { type: string, example: nepolozen }
+              required: [ocena, status]
+            examples:
+              update_ocena:
+                value: { ocena: 5, status: nepolozen }
+      responses:
+        '200':
+          description: Ažurirano.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean, example: true }
+                  message: { type: string, example: Ocena ažurirana. }
+                  data: { $ref: '#/components/schemas/PrijavaIspita' }
+                required: [success, data]
+        '401': { description: Unauthorized. }
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '422':
+          description: Validaciona greška.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ValidationErrorResponse' }
+
+  # ===========================
+  # PROFESOR ROUTES (NEW)
+  # ===========================
+  /profesor/predmeti:
+    get:
+      tags: [Profesor]
+      summary: Profesor - moji predmeti
+      responses:
+        '200':
+          description: Lista predmeta profesora.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceCollection_Predmet'
+        '401': { description: Unauthorized. }
+        '403':
+          description: Forbidden (not profesor).
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /profesor/predmeti/{predmetId}/studenti:
+    get:
+      tags: [Profesor]
+      summary: Profesor - studenti na predmetu
+      parameters:
+        - name: predmetId
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Lista studenata koji slušaju predmet.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '401': { description: Unauthorized. }
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '404': { description: Not found. }
+
+  /profesor/predmeti/{predmetId}/prijave-ispita:
+    get:
+      tags: [Profesor]
+      summary: Profesor - prijave ispita za predmet (paginacija)
+      parameters:
+        - name: predmetId
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: page
+          in: query
+          required: false
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Paginisana lista prijava ispita.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceCollection_Prijava'
+        '401': { description: Unauthorized. }
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '404': { description: Not found. }
+
+  /profesor/prijave-ispita/{prijavaId}/ocena:
+    patch:
+      tags: [Profesor]
+      summary: Profesor - upis ocene (status automatski)
+      parameters:
+        - name: prijavaId
+          in: path
+          required: true
+          schema: { type: integer }
       requestBody:
         required: true
         content:
@@ -920,47 +900,31 @@ paths:
                   type: integer
                   minimum: 5
                   maximum: 10
-                status:
-                  type: string
-                  example: nepolozen
-              required:
-              - ocena
-              - status
+              required: [ocena]
             examples:
-              update_ocena:
-                value:
-                  ocena: 5
-                  status: nepolozen
+              ocena_10:
+                value: { ocena: 10 }
       responses:
         '200':
-          description: Ažurirano.
+          description: Ocena upisana.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  success:
-                    type: boolean
-                    example: true
                   message:
                     type: string
-                    example: Ocena ažurirana.
-                  data:
+                    example: Ocena je uspešno upisana.
+                  prijava:
                     $ref: '#/components/schemas/PrijavaIspita'
-                required:
-                - success
-                - data
-        '401':
-          description: Unauthorized.
+        '401': { description: Unauthorized. }
         '403':
           description: Forbidden.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
         '422':
           description: Validaciona greška.
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/ValidationErrorResponse'
+              schema: { $ref: '#/components/schemas/ValidationErrorResponse' }
